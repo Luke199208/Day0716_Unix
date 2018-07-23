@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luke.account.mapper.AccountMapper">
+    <sql id="whereif" >
+        <trim prefix="where" prefixOverrides="and">
+            <if test="idcard_no != null and idcard_no != ''">
+                and idcard_no = #{idcard_no}
+            </if>
+            <if test="real_name != null and real_name != ''">
+                and real_name LIKE "%"#{real_name}"%"
+            </if>
+            <if test="login_name != null and login_name != ''">
+                and login_name LIKE "%"#{login_name}"%"
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+        </trim>
+    </sql>
+
+    <select id="findAll" resultType="com.luke.account.bean.Account">
+        SELECT * FROM account;
+    </select>
+
+    <select id="findAccountById" resultType="com.luke.account.bean.Account">
+        SELECT * FROM account WHERE account_id = #{id};
+    </select>
+
+    <update id="setStateStart" parameterType="String" >
+        UPDATE account SET status = #{status},create_date = #{create_date} WHERE account_id = #{id};
+    </update>
+
+    <update id="setStatePause" parameterType="String" >
+        UPDATE account SET status = #{status} ,pause_date = #{pause_date} WHERE account_id = #{id};
+    </update>
+
+    <!--delete-->
+    <update id="deleteAccount" parameterType="String">
+        UPDATE account SET status = '3' WHERE account_id = #{id};
+    </update>
+
+    <!--findDetail-->
+    <select id="findDetail" resultType="com.luke.account.bean.Account">
+        SELECT * FROM account WHERE account_id = #{id};
+    </select>
+
+    <!--modify-->
+    <update id="modiAcc" parameterType="com.luke.account.bean.Account">
+        UPDATE account 
+        <trim prefix="set" suffixOverrides=",">
+            <if test="real_name != null and real_name != ''">
+                real_name = #{real_name},
+            </if>
+            <if test="telephone != null and telephone != ''">
+                telephone = #{telephone},
+            </if>
+            <if test="email != null and email != ''">
+                real_name = #{real_name},
+            </if>
+            <if test="occupation != null and occupation != ''">
+                occupation = #{occupation},
+            </if>
+            <if test="gender != null and gender != ''">
+                gender = #{gender},
+            </if>
+            <if test="mailaddress != null and mailaddress != ''">
+                mailaddress = #{mailaddress},
+            </if>
+            <if test="zipcode != null and zipcode != ''">
+                zipcode = #{zipcode},
+            </if>
+            <if test="qq != null and qq != ''">
+                qq = #{qq},
+            </if>
+        </trim>
+    </update> 
+    
+    <!--ConditionQuery-->
+    <!--<select id="ConditionQuery" parameterType="com.luke.account.bean.AccountPage" resultType="com.luke.account.bean.Account">
+        SELECT * FROM account
+           <include refid="whereif"/>
+    </select>-->
+
+    <!--查询总条数-->
+    <select id="getCount"  resultType="int">
+        SELECT count(*) FROM account;
+    </select>
+
+    <!--条件查询总条数-->
+    <select id="getConditionQueryCount" parameterType="com.luke.account.bean.AccountPage" resultType="int">
+        SELECT count(*) FROM account
+        <include refid="whereif"></include>
+    </select>
+
+    <!--初始跳入分页-->
+    <select id="findAccountByLimit" parameterType="com.luke.account.bean.AccountPage" resultType="com.luke.account.bean.Account">
+        SELECT * FROM account
+        limit #{beginNum},#{singlePageCount};
+    </select>
+
+    <!--分页查询+ConditionQuery-->
+    <select id="ConditionQueryByLimit" parameterType="com.luke.account.bean.AccountPage" resultType="com.luke.account.bean.Account">
+        SELECT * FROM account
+        <include refid="whereif"></include>
+        limit #{beginNum},#{singlePageCount};
+    </select>
+
+    <!--addAccount-->
+    <select id="findAccountByIdcard" resultType="com.luke.account.bean.Account">
+        SELECT * FROM account WHERE idcard_no = #{idcard_no};
+    </select>
+    <insert id="insertAccount" parameterType="com.luke.account.bean.Account" >
+        INSERT INTO account
+        (account_id,recommender_id,login_name,login_passwd,
+        real_name,status,idcard_no,telephone,create_date,
+        pause_date,close_date,birthdate,gender,email,occupation,
+        mailaddress,zipcode,qq)
+         VALUES
+         (NULL ,#{recommender_id},#{login_name},
+         #{login_passwd},#{real_name},'1',#{idcard_no},
+         #{telephone},#{create_date},#{pause_date} ,
+         #{close_date},#{birthdate},#{gender},#{email},#{occupation},
+         #{mailaddress},#{zipcode},#{qq});
+    </insert>
+
+    <!--导入导出-->
+    <!--import-->
+    <insert id="insertInfoBatch" parameterType="java.util.List">
+        INSERT INTO account
+        (account_id,recommender_id,login_name,login_passwd,
+        real_name,status,idcard_no,telephone,create_date,
+        pause_date,close_date,birthdate,gender,email,occupation,
+        mailaddress,zipcode,qq)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (NULL ,#{recommender_id},#{login_name},
+            #{login_passwd},#{real_name},#{status},#{idcard_no},
+            #{telephone},#{create_date},#{pause_date} ,
+            #{close_date},#{birthdate},#{gender},#{email},#{occupation},
+            #{mailaddress},#{zipcode},#{qq});
+        </foreach>
+    </insert>
+</mapper>

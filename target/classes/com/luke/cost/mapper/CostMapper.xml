@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luke.cost.mapper.CostMapper">
+    <select id="findAll" parameterType="com.luke.cost.bean.CostPage" resultType="com.luke.cost.bean.Cost">
+        SELECT * FROM cost limit #{beginNum},#{singlePageCount} ;
+    </select>
+    <select id="getCount" resultType="int">
+        SELECT count(*) FROM cost;
+    </select>
+
+    <select id="findAllAscSortByBD" resultType="com.luke.cost.bean.Cost">
+        SELECT * FROM cost ORDER BY base_duration ASC ;
+    </select>
+    <select id="findAllDecSortByBD" resultType="com.luke.cost.bean.Cost">
+        SELECT * FROM cost ORDER BY base_duration DESC ;
+    </select>
+    <select id="findAllAscSortByBC" resultType="com.luke.cost.bean.Cost">
+        SELECT * FROM cost ORDER BY base_cost ASC ;
+    </select>
+    <select id="findAllDecSortByBC" resultType="com.luke.cost.bean.Cost">
+        SELECT * FROM cost ORDER BY base_cost DESC ;
+    </select>
+
+    <select id="finddetail" parameterType="String" resultType="com.luke.cost.bean.Cost">
+        SELECT * FROM cost WHERE cost_id = #{id};
+    </select>
+
+    <select id="findCostByName" parameterType="com.luke.cost.bean.Cost" resultType="com.luke.cost.bean.Cost">
+        SELECT * FROM  cost WHERE name = #{name};
+    </select>
+
+    <insert id="insertCost" parameterType="com.luke.cost.bean.Cost">
+        insert into cost values (NULL,#{name},#{base_duration},#{base_cost},#{unit_cost},#{status},#{descr},#{creatime},#{startime},#{cost_type});
+    </insert>
+
+    <update id="updateStatus" parameterType="String" >
+        UPDATE cost SET status = '1',startime = #{date} WHERE cost_id = #{id};
+    </update>
+
+    <delete id="deleteCostById" parameterType="String">
+        DELETE FROM cost WHERE cost_id = #{id};
+    </delete>
+
+    <update id="modifyCost" parameterType="com.luke.cost.bean.Cost" >
+        UPDATE cost
+        SET name = #{name},base_duration = #{base_duration},
+        base_cost = #{base_cost},unit_cost = #{unit_cost},
+        descr = #{descr},cost_type = #{cost_type}
+        WHERE cost_id = #{cost_id};
+    </update>
+</mapper>

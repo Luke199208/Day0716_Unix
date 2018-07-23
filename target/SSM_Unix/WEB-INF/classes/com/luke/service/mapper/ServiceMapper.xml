@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luke.service.mapper.ServiceMapper">
+    <sql id="whereif" >
+        <trim prefix="where" prefixOverrides="and">
+            <if test="idcard_no != null and idcard_no != ''">
+                and idcard_no LIKE "%"#{idcard_no}"%"
+            </if>
+            <if test="os_username != null and os_username != ''">
+                and os_username LIKE "%"#{os_username}"%"
+            </if>
+            <if test="unix_host != null and unix_host != ''">
+                and unix_host LIKE "%"#{unix_host}"%"
+            </if>
+            <if test="service_status != null and service_status != ''">
+                and service_status = #{service_status}
+            </if>
+        </trim>
+    </sql>
+    <!--初始分页-->
+    <select id="getCount" resultType="int">
+        SELECT count(*) FROM service
+        LEFT JOIN account ON service.account_id = account.account_id
+        LEFT JOIN cost ON service.cost_id = cost.cost_id;
+    </select>
+    <select id="findServiceByLimit" parameterType="com.luke.service.bean.ServicePage" resultMap="SAC">
+        SELECT * FROM  service
+         LEFT JOIN account ON service.account_id = account.account_id
+        LEFT JOIN cost ON service.cost_id = cost.cost_id
+        limit #{beginNum},#{singlePageCount};
+    </select>
+    <resultMap id="SAC" type="com.luke.service.bean.ServiceBean">
+        <id column="id" property="id"/>
+        <result column="account_id" property="account_id"/>
+        <result column="os_username" property="os_username"/>
+        <result column="service_status" property="service_status"/>
+        <result column="unix_host" property="unix_host"/>
+        <result column="login_passwd" property="login_passwd"/>
+        <result column="create_date" property="create_date"/>
+        <result column="cost_id" property="cost_id"/>
+        <result column="pause_date" property="pause_date"/>
+        <result column="close_date" property="close_date"/>
+        <association property="account" javaType="com.luke.account.bean.Account">
+            <result column="idcard_no" property="idcard_no"/>
+            <result column="real_name" property="real_name"/>
+        </association>
+        <association property="cost" javaType="com.luke.cost.bean.Cost">
+            <result column="name" property="name"/>
+            <result column="descr" property="descr"/>
+        </association>
+    </resultMap>
+
+    <!--条件分页查询-->
+    <select id="getConditionQueryCount" parameterType="com.luke.service.bean.ServicePage" resultType="int">
+        SELECT count(*) FROM service
+        LEFT JOIN account ON service.account_id = account.account_id
+        LEFT JOIN cost ON service.cost_id = cost.cost_id
+        <include refid="whereif"></include>
+    </select>
+    <select id="ConditionQueryByLimit" parameterType="com.luke.service.bean.ServicePage" resultMap="SAC">
+        SELECT * FROM  service
+        LEFT JOIN account ON service.account_id = account.account_id
+        LEFT JOIN cost ON service.cost_id = cost.cost_id
+        <include refid="whereif"></include>
+        limit #{beginNum},#{singlePageCount};
+    </select>
+
+
+    <!--add-->
+    <!--findAccount-->
+    <select id="findAccount" resultType="com.luke.account.bean.Account">
+        SELECT * FROM account where idcard_no = #{idcard_no};
+    </select>
+
+    <select id="findAddCost" resultType="com.luke.cost.bean.Cost">
+        SELECT  * FROM cost;
+    </select>
+
+    <select id="findAddHost" resultType="com.luke.service.bean.Host">
+        SELECT * FROM host;
+    </select>
+
+    <select id="findSelectedCost" resultType="com.luke.cost.bean.Cost">
+        SELECT  * FROM cost WHERE name = #{name};
+    </select>
+    <!--add-->
+    <insert id="insertService" >
+        INSERT INTO service
+        VALUES
+        (NULL ,#{account_id},#{unix_host},#{os_username},#{login_passwd},
+        '0',#{create_date},null,null,#{cost_id} );
+    </insert>
+
+    <!--findDetail-->
+    <select id="findDetail" parameterType="string" resultMap="SAC">
+        SELECT * FROM  service
+        LEFT JOIN account ON service.account_id = account.account_id
+        LEFT JOIN cost ON service.cost_id = cost.cost_id
+        WHERE service.id=#{service_id};
+    </select>
+
+    <!--updateStatus-->
+    <select id="findServiceById" resultType="com.luke.service.bean.ServiceBean">
+        SELECT * FROM service WHERE id = #{id};
+    </select>
+    <update id="updateStatus">
+        UPDATE service SET service_status = #{service_status} WHERE id = #{id};
+    </update>
+
+    <!--del-->
+    <update id="del">
+        UPDATE service SET service_status = '2' WHERE id = #{id};
+    </update>
+</mapper>
