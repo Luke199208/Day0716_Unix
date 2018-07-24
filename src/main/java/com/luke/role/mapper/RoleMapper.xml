@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luke.role.mapper.RoleMapper">
+    <!--分页-->
+    <select id="getCount" resultType="int">
+        SELECT count(*) FROM role_info;
+    </select>
+
+    <select id="findAll" parameterType="com.luke.role.bean.RolePage" resultType="com.luke.role.bean.Role_info">
+        SELECT *
+        FROM role_info
+        limit #{beginNum},#{singlePageCount};
+    </select>
+
+    <select id="findModuleById" parameterType="com.luke.role.bean.Role_info" resultType="com.luke.role.bean.Module_info">
+        SELECT module_info.*
+        FROM role_info
+        LEFT JOIN role_module on role_info.role_id = role_module.role_id
+        LEFT JOIN module_info ON role_module.module_id = module_info.module_id
+        where role_info.role_id = #{role_id};
+    </select>
+
+    <!--add-->
+    <select id="findModule" resultType="com.luke.role.bean.Module_info">
+        SELECT * FROM module_info;
+    </select>
+
+    <select id="findRoleByName" resultType="com.luke.role.bean.Role_info">
+        SELECT * FROM role_info WHERE role_name = #{role_name};
+    </select>
+
+    <insert id="insertRole" parameterType="string">
+        INSERT INTO role_info VALUES (NULL ,#{role_name});
+    </insert>
+    <insert id="insertRole_Module" parameterType="string">
+        INSERT INTO role_module VALUES (#{role_id},#{module_id});
+    </insert>
+
+    <!--modify-->
+    <select id="findRoleById" parameterType="string" resultMap="RM">
+        SELECT *
+        FROM role_info
+        LEFT JOIN role_module on role_info.role_id = role_module.role_id
+        LEFT JOIN module_info ON role_module.module_id = module_info.module_id
+        WHERE role_info.role_id = #{role_id};
+    </select>
+    <resultMap id="RM" type="com.luke.role.bean.Role_info">
+        <id column="role_id" property="role_id"/>
+        <result column="role_name" property="role_name"/>
+        <collection property="module_infoList" ofType="com.luke.role.bean.Module_info">
+            <id column="module_id" property="module_id"/>
+            <result column="module_name" property="module_name"/>
+        </collection>
+    </resultMap>
+
+    <update id="updateRole" parameterType="string" >
+        UPDATE role_info SET role_name = #{role_name} WHERE role_id = #{role_id};
+    </update>
+    <delete id="deleteOldRMById" parameterType="string">
+        DELETE FROM role_module WHERE role_id = #{role_id};
+    </delete>
+    <select id="findRoleByNameAndId" parameterType="string" resultType="com.luke.role.bean.Role_info">
+        SELECT * FROM role_info WHERE role_name = #{role_name} AND role_id != #{role_id};
+    </select>
+</mapper>

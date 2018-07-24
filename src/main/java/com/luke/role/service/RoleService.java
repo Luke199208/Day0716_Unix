@@ -1,6 +1,11 @@
 package com.luke.role.service;
 
+import com.luke.role.bean.Module_info;
 import com.luke.role.bean.RolePage;
+import com.luke.role.bean.Role_info;
+
+import java.util.List;
+import java.util.Map;
 
 /***
  * com.luke.role.service
@@ -26,4 +31,12 @@ public interface RoleService {
     RolePage findAll();
 
     RolePage findRoleByLimit(RolePage rolePage);
+
+    List<Module_info> findModule();
+
+    boolean add(Map<String, String> map);
+
+    Role_info findRoleById(String id);
+
+    boolean modi(Map<String, String> map);
 }

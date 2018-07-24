@@ -23,18 +23,10 @@ import java.util.List;
  *       我湿一吼  BUG无有                        
  */
 public class Role_info {
-    private int role_id;
+    private String role_id;
     private String role_name;
 
     private List<Module_info> module_infoList;
-
-    public int getRole_id() {
-        return role_id;
-    }
-
-    public void setRole_id(int role_id) {
-        this.role_id = role_id;
-    }
 
     public String getRole_name() {
         return role_name;
@@ -52,10 +44,18 @@ public class Role_info {
         this.module_infoList = module_infoList;
     }
 
+    public String getRole_id() {
+        return role_id;
+    }
+
+    public void setRole_id(String role_id) {
+        this.role_id = role_id;
+    }
+
     @Override
     public String toString() {
         return "Role_info{" +
-                "role_id=" + role_id +
+                "role_id='" + role_id + '\'' +
                 ", role_name='" + role_name + '\'' +
                 ", module_infoList=" + module_infoList +
                 '}';

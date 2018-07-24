@@ -43,7 +43,7 @@
             <form action="" method="">
                 <!--查询-->
                 <div class="search_add">
-                    <input type="button" value="增加" class="btn_add" onclick="location.href='role_add.jsp';" />
+                    <input type="button" value="增加" class="btn_add" onclick="location.href='<c:url value="/role/ToAdd.do"/>';" />
                 </div>  
                 <!--删除的操作提示-->
                 <div id="operate_result_info" class="operate_success">
@@ -65,11 +65,11 @@
                                 <td>${role_info.role_name}</td>
                                 <td>
                                     <c:forEach items="${role_info.module_infoList}" var="module_info">
-                                        ${module_info.module_name},
+                                        ${module_info.module_name}&nbsp
                                     </c:forEach>
                                 </td>
                                 <td>
-                                    <input type="button" value="修改" class="btn_modify" onclick="location.href='role_modi.jsp';"/>
+                                    <input type="button" value="修改" class="btn_modify" onclick="location.href='<c:url value="/role/ToModi.do?id=${role_info.role_id}"/> ';"/>
                                     <input type="button" value="删除" class="btn_delete" onclick="deleteRole();" />
                                 </td>
                             </tr>

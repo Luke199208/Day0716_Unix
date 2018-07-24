@@ -21,22 +21,22 @@ package com.luke.role.bean;
  *       我湿一吼  BUG无有                        
  */
 public class Module_info {
-    private int module_id;
+    private String module_id;
     private String module_name;
 
     @Override
     public String toString() {
         return "Module_info{" +
-                "module_id=" + module_id +
+                "module_id='" + module_id + '\'' +
                 ", module_name='" + module_name + '\'' +
                 '}';
     }
 
-    public int getModule_id() {
+    public String getModule_id() {
         return module_id;
     }
 
-    public void setModule_id(int module_id) {
+    public void setModule_id(String module_id) {
         this.module_id = module_id;
     }
 
