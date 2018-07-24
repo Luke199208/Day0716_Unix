@@ -46,16 +46,16 @@
         <!--导航区域开始-->
         <div id="navi">                        
             <ul id="menu">
-                <li><a href="../index.html" class="index_off"></a></li>
-                <li><a href="../role/role_list.html" class="role_off"></a></li>
+                <li><a href="<c:url value="/main/toMain.do"/>" class="index_off"></a></li>
+                <li><a href="<c:url value="/role/findAll.do"/>" class="role_off"></a></li>
                 <li><a href="../admin/admin_list.html" class="admin_off"></a></li>
                 <li><a href="<c:url value="/cost/findAll.do"/>" class="fee_off"></a></li>
                 <li><a href="<c:url value="/account/findAll.do"/>" class="account_off"></a></li>
                 <li><a href="<c:url value="/service/findAll.do"/>" class="service_on"></a></li>
                 <li><a href="../bill/bill_list.html" class="bill_off"></a></li>
                 <li><a href="../report/report_list.html" class="report_off"></a></li>
-                <li><a href="../user/user_info.html" class="information_off"></a></li>
-                <li><a href="../user/user_modi_pwd.html" class="password_off"></a></li>
+                <li><a href="../user/user_info.jsp" class="information_off"></a></li>
+                <li><a href="../user/user_modi_pwd.jsp" class="password_off"></a></li>
             </ul>            
         </div>
         <!--导航区域结束-->

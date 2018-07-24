@@ -7,7 +7,7 @@
         <title>云科技</title>
         <link type="text/css" rel="stylesheet" media="all" href="../styles/global.css" />
         <link type="text/css" rel="stylesheet" media="all" href="../styles/global_color.css" />
-        <script src="../js/jquery-3.2.1.js"></script>
+        <script src="<%=request.getContextPath()%>/js/jquery-3.2.1.js"></script>
         <script language="javascript" type="text/javascript">
             //删除
             function deleteAccount(self) {
@@ -40,16 +40,16 @@
         <!--导航区域开始-->
         <div id="navi">                        
             <ul id="menu">
-                <li><a href="../index.html" class="index_off"></a></li>
-                <li><a href="../role/role_list.html" class="role_off"></a></li>
+                <li><a href="<c:url value="/main/toMain.do"/>" class="index_off"></a></li>
+                <li><a href="<c:url value="/role/findAll.do"/>" class="role_off"></a></li>
                 <li><a href="../admin/admin_list.html" class="admin_off"></a></li>
                 <li><a href="<c:url value="/cost/findAll.do"/>" class="fee_off"></a></li>
                 <li><a href="<c:url value="/account/findAll.do"/>" class="account_on"></a></li>
-                <li><a href="../service/service_list.jsp" class="service_off"></a></li>
+                <li><a href="<c:url value="/service/findAll.do"/>" class="service_off"></a></li>
                 <li><a href="../bill/bill_list.html" class="bill_off"></a></li>
                 <li><a href="../report/report_list.jsp" class="report_off"></a></li>
-                <li><a href="../user/user_info.html" class="information_off"></a></li>
-                <li><a href="../user/user_modi_pwd.html" class="password_off"></a></li>
+                <li><a href="../user/user_info.jsp" class="information_off"></a></li>
+                <li><a href="../user/user_modi_pwd.jsp" class="password_off"></a></li>
             </ul>            
         </div>
         <!--导航区域结束-->
@@ -64,10 +64,10 @@
                     <div>
                         状态：
                         <select class="select_search" name="status">
-                            <option value="0">全部</option>
-                            <option value="1">开通</option>
-                            <option value="2">暂停</option>
-                            <option value="3">删除</option>
+                            <option id="all" value="0">全部</option>
+                            <option id="start" value="1">开通</option>
+                            <option id="pause" value="2">暂停</option>
+                            <option id="del" value="3">删除</option>
                         </select>
                     </div>
                     <div><input type="button" value="搜索" class="btn_search" onclick="ConditionQuery(this)"/></div>
@@ -76,7 +76,7 @@
                 <!--删除等的操作提示-->
                 <div id="operate_result_info" class="operate_success">
                     <img src="<%=request.getContextPath()%>/images/close.png" onclick="this.parentNode.style.display='none';" />
-                    ${msg}!
+                    ${msg}
                 </div>   
                 <!--数据区域：用表格展示数据-->     
                 <div id="data">            
@@ -182,6 +182,21 @@
             </form>
         </div>--%>
     <script type="">
+        $(function () {
+            var status = "${accountPage.status}";
+            if (status == "0"){
+                $("#all").attr("selected","selected");
+            }
+            if (status == "1"){
+                $("#start").attr("selected","selected");
+            }
+            if (status == "2"){
+                $("#pause").attr("selected","selected");
+            }
+            if (status == "3"){
+                $("#del").attr("selected","selected");
+            }
+        });
         function getPage(e, f) {
             var url = "../account/ConditionQueryByLimit.do?currentPage="+f;
             $("#form").attr("action",url);

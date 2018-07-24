@@ -39,7 +39,7 @@ import java.util.*;
  *
  *       我湿一吼  BUG无有                        
  */
-@Service
+@Service("accountA")
 public class AccountServiceImpl implements AccountService {
 
     @Resource

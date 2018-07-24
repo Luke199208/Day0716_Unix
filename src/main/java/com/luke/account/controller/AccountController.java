@@ -3,6 +3,7 @@ package com.luke.account.controller;
 
 import com.luke.account.bean.Account;
 import com.luke.account.bean.AccountPage;
+import com.luke.account.service.AccountService;
 import com.luke.account.service.impl.AccountServiceImpl;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Controller;
@@ -55,8 +56,8 @@ import java.util.Map;
 //但不建议使用,因为很多项目使用前后端分离,则此方式无法成功
 public class AccountController {
 
-    @Resource
-    private AccountServiceImpl service;
+    @Resource(name = "accountA")
+    private AccountService service;
 
     @RequestMapping("/findAll.do")
     public String findAll(Model model){

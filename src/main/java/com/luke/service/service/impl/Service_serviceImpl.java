@@ -6,7 +6,7 @@ import com.luke.service.bean.Host;
 import com.luke.service.bean.ServiceBean;
 import com.luke.service.bean.ServicePage;
 import com.luke.service.mapper.ServiceMapper;
-import com.luke.service.service.Service_sercvice;
+import com.luke.service.service.Service_service;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,8 +34,8 @@ import java.util.List;
  *
  *       我湿一吼  BUG无有                        
  */
-@Service
-public class Service_serviceImpl implements Service_sercvice {
+@Service("serviceA")
+public class Service_serviceImpl implements Service_service {
 
     @Resource
     private ServiceMapper mapper;

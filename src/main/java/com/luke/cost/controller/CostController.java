@@ -2,6 +2,7 @@ package com.luke.cost.controller;
 
 import com.luke.cost.bean.Cost;
 import com.luke.cost.bean.CostPage;
+import com.luke.cost.service.CostService;
 import com.luke.cost.service.impl.CostServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,8 +36,8 @@ import java.util.List;
 @RequestMapping("/cost")
 public class CostController {
 
-    @Resource//(name = "CostServiceImpl")
-    private CostServiceImpl service;
+    @Resource(name = "CostA")
+    private CostService service;
 
     //初始分页
     @RequestMapping("/findAll.do")
@@ -49,11 +50,11 @@ public class CostController {
     //点击页码查询
     @RequestMapping("/findCostByLimit.do")
     public String findCostByLimit(@RequestParam String currentPage, Model model){
-        System.out.println(currentPage);
+
         CostPage page = new CostPage();
         page.setCurrentPage(Integer.parseInt(currentPage));
         CostPage costPage = service.findCostByLimit(page);
-        System.out.println(costPage);
+
         model.addAttribute("costPage",costPage);
 
         return "cost/cost_list";

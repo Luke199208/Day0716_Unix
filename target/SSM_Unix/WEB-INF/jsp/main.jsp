@@ -13,16 +13,16 @@
         <!--导航区域开始-->
         <div id="index_navi">
             <ul id="menu">
-                <li><a href="index.html" class="index_on"></a></li>
-                <li><a href="role/role_list.html" class="role_off"></a></li>
+                <li><a href="<c:url value="/main/toMain.do"/>" class="index_on"></a></li>
+                <li><a href="<c:url value="/role/findAll.do"/>" class="role_off"></a></li>
                 <li><a href="admin/admin_list.html" class="admin_off"></a></li>
                 <li><a href="<%= request.getContextPath()%>/cost/findAll.do" class="fee_off"></a></li>
                 <li><a href="<%= request.getContextPath()%>/account/findAll.do" class="account_off"></a></li>
                 <li><a href="<%= request.getContextPath()%>/service/findAll.do" class="service_off"></a></li>
                 <li><a href="bill/bill_list.html" class="bill_off"></a></li>
                 <li><a onclick="exportExcel()" class="report_off"></a></li>
-                <li><a href="user/user_info.html" class="information_off"></a></li>
-                <li><a href="user/user_modi_pwd.html" class="password_off"></a></li>
+                <li><a href="user/user_info.jsp" class="information_off"></a></li>
+                <li><a href="user/user_modi_pwd.jsp" class="password_off"></a></li>
             </ul>
         </div>
     <script type="">

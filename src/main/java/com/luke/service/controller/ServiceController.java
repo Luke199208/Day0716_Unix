@@ -5,7 +5,7 @@ import com.luke.cost.bean.Cost;
 import com.luke.service.bean.Host;
 import com.luke.service.bean.ServiceBean;
 import com.luke.service.bean.ServicePage;
-import com.luke.service.service.impl.Service_serviceImpl;
+import com.luke.service.service.Service_service;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 /***
@@ -42,8 +40,8 @@ import java.util.List;
 @RequestMapping("/service")
 public class ServiceController {
 
-    @Resource
-    private Service_serviceImpl service;
+    @Resource(name = "serviceA")
+    private Service_service service;
 
     //初始分页
     @RequestMapping("/findAll.do")

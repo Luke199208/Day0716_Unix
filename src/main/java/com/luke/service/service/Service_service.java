@@ -28,7 +28,7 @@ import java.util.List;
  *
  *       我湿一吼  BUG无有                        
  */
-public interface Service_sercvice {
+public interface Service_service {
 
     ServicePage findServiceByLimit();
 
