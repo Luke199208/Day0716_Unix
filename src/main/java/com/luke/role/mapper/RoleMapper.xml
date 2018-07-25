@@ -35,7 +35,8 @@
         INSERT INTO role_info VALUES (NULL ,#{role_name});
     </insert>
     <insert id="insertRole_Module" parameterType="string">
-        INSERT INTO role_module VALUES (#{role_id},#{module_id});
+        INSERT INTO role_module
+        VALUES (#{role_id,jdbcType=NUMERIC},#{module_id,jdbcType=NUMERIC});
     </insert>
 
     <!--modify-->

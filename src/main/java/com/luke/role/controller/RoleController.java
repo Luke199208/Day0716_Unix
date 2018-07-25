@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -74,7 +73,7 @@ public class RoleController {
         for (String s : map.keySet()) {
             System.out.println(s+"----->"+map.get(s));
         }
-        if(map.size()>1 && !role_name.isEmpty() && role_name .equals("")){
+        if(map.size()>1 && !role_name.isEmpty() && !role_name .equals("")){
             boolean flag = service.add(map);
             if (flag){
                 return "添加成功!";
