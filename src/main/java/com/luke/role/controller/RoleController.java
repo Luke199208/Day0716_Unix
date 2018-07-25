@@ -74,7 +74,7 @@ public class RoleController {
         for (String s : map.keySet()) {
             System.out.println(s+"----->"+map.get(s));
         }
-        if(map.size()>1 && !role_name.isEmpty() && role_name .equals("")){
+        if(map.size()>1 && !role_name.isEmpty() && !role_name .equals("")){
             boolean flag = service.add(map);
             if (flag){
                 return "添加成功!";

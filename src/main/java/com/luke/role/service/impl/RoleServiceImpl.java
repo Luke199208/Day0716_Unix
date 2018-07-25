@@ -1,16 +1,14 @@
 package com.luke.role.service.impl;
 
-import com.luke.cost.mapper.CostMapper;
+
 import com.luke.role.bean.Module_info;
 import com.luke.role.bean.RolePage;
 import com.luke.role.bean.Role_info;
 import com.luke.role.mapper.RoleMapper;
 import com.luke.role.service.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -80,7 +78,6 @@ public class RoleServiceImpl implements RoleService {
             int flag = 0;
             roleMapper.insertRole(role_name);
             Role_info roleInfo = roleMapper.findRoleByName(role_name);
-            System.out.println(roleInfo);
             for (String s : map.keySet()) {
                 if (!s.equals("role_name")){
                     flag =roleMapper.insertRole_Module(roleInfo.getRole_id(),s);
@@ -106,9 +103,10 @@ public class RoleServiceImpl implements RoleService {
             int flag = 0;
             roleMapper.updateRole(role_id,role_name);
             roleMapper.deleteOldRMById(role_id);
+            Role_info roleInfo = roleMapper.findRoleByName(role_name);
             for (String s : map.keySet()) {
-                if (!s.equals("role_name")){
-                    flag =roleMapper.insertRole_Module(role_id, s);
+                if (!s.equals("role_name")&&!s.equals("role_id")){
+                    flag =roleMapper.insertRole_Module(roleInfo.getRole_id(), s);
                 }
             }
             return flag == 1;
