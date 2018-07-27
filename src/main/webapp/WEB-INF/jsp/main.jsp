@@ -15,7 +15,7 @@
             <ul id="menu">
                 <li><a href="<c:url value="/main/toMain.do"/>" class="index_on"></a></li>
                 <li><a href="<c:url value="/role/findAll.do"/>" class="role_off"></a></li>
-                <li><a href="admin/admin_list.html" class="admin_off"></a></li>
+                <li><a href="<c:url value="/admin/findAll.do"/>" class="admin_off"></a></li>
                 <li><a href="<%= request.getContextPath()%>/cost/findAll.do" class="fee_off"></a></li>
                 <li><a href="<%= request.getContextPath()%>/account/findAll.do" class="account_off"></a></li>
                 <li><a href="<%= request.getContextPath()%>/service/findAll.do" class="service_off"></a></li>

@@ -71,9 +71,9 @@ public class RoleController {
     @ResponseBody
     public String add(@RequestBody Map<String,String> map){
         String role_name =map.get("role_name");
-        for (String s : map.keySet()) {
-            System.out.println(s+"----->"+map.get(s));
-        }
+//        for (String s : map.keySet()) {
+//            System.out.println(s+"----->"+map.get(s));
+//        }
         if(map.size()>1 && !role_name.isEmpty() && !role_name .equals("")){
             boolean flag = service.add(map);
             if (flag){
@@ -99,9 +99,9 @@ public class RoleController {
     @ResponseBody
     public String modi(@RequestBody Map<String,String> map){
         String role_name =map.get("role_name");
-        for (String s : map.keySet()) {
-            System.out.println(s+"----->"+map.get(s));
-        }
+//        for (String s : map.keySet()) {
+//            System.out.println(s+"----->"+map.get(s));
+//        }
         if(map.size()>2 && !role_name.isEmpty() && !role_name.equals("")){
             boolean flag = service.modi(map);
             if (flag){

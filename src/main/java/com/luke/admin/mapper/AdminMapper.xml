@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luke.admin.mapper.AdminMapper">
+    <sql id="ConditionQuery">
+        <trim prefix="where" prefixOverrides="and">
+            <if test="module_name != null and module_name != ''">
+                AND module_info.module_name = #{module_name}
+            </if>
+            <if test="role_name != null and role_name != ''">
+                AND role_info.role_name = #{role_name}
+            </if>
+        </trim>
+    </sql>
+    <select id="findAllAdmin" resultType="com.luke.admin.bean.Admin">
+        SELECT * FROM admin_info;
+    </select>
+    <select id="getCount" resultType="int">
+        SELECT count(*)
+        FROM admin_info;
+    </select>
+    <select id="getCountByCondition" parameterType="com.luke.admin.bean.AdminPage" resultType="int">
+        SELECT count(*)
+        FROM admin_info
+        WHERE admin_name
+        IN (
+        SELECT admin_info.admin_name FROM admin_info
+        LEFT JOIN admin_role ON admin_info.admin_id = admin_role.admin_id
+        LEFT JOIN role_info ON admin_role.role_id = role_info.role_id
+        LEFT JOIN role_module ON role_info.role_id = role_module.role_id
+        LEFT JOIN module_info ON module_info.module_id = role_module.module_id
+        <include refid="ConditionQuery"></include>
+        )
+    </select>
+    <!--<select id="findAdminByRoleModule" parameterType="string" resultType="com.luke.admin.bean.Admin">
+        SELECT *
+        FROM admin_info
+        LEFT JOIN admin_role ON admin_info.admin_id = admin_role.admin_id
+        LEFT JOIN role_info ON admin_role.role_id = role_info.role_id
+        LEFT JOIN role_module ON role_info.role_id = role_module.role_id
+        LEFT JOIN module_info ON module_info.module_id = role_module.module_id
+        <include refid="ConditionQuery"></include>
+        AND admin_info.admin_id = #{admin_id};
+    </select>-->
+    <select id="findAdminByLimit" parameterType="com.luke.admin.bean.AdminPage" resultType="com.luke.admin.bean.Admin">
+        SELECT admin_info.*
+        FROM admin_info
+        limit #{beginNum},#{singlePageCount};
+    </select>
+    <select id="ConditionQueryLimit" parameterType="com.luke.admin.bean.AdminPage" resultType="com.luke.admin.bean.Admin">
+        SELECT admin_info.*
+        FROM admin_info
+        WHERE admin_name
+        IN (
+        SELECT admin_info.admin_name FROM admin_info
+        LEFT JOIN admin_role ON admin_info.admin_id = admin_role.admin_id
+        LEFT JOIN role_info ON admin_role.role_id = role_info.role_id
+        LEFT JOIN role_module ON role_info.role_id = role_module.role_id
+        LEFT JOIN module_info ON module_info.module_id = role_module.module_id
+        <include refid="ConditionQuery"></include>
+        )
+        ORDER BY admin_id
+        limit #{beginNum},#{singlePageCount};
+    </select>
+    <select id="findRoleById" parameterType="com.luke.admin.bean.Admin" resultType="com.luke.role.bean.Role_info">
+        SELECT *
+        FROM role_info
+        LEFT JOIN admin_role ON role_info.role_id = admin_role.role_id
+        LEFT JOIN admin_info ON admin_info.admin_id = admin_role.admin_id
+        WHERE admin_info.admin_id = #{admin_id};
+    </select>
+
+    <select id="findAllModule" resultType="com.luke.role.bean.Module_info">
+        SELECT * FROM module_info;
+    </select>
+
+    <!--add-->
+    <select id="findAllRole" resultType="com.luke.role.bean.Role_info">
+        SELECT * FROM role_info;
+    </select>
+    <select id="findByCode" resultType="com.luke.admin.bean.Admin">
+        SELECT * FROM admin_info WHERE admin_code = #{admin_code};
+    </select>
+    <insert id="insertAdmin" parameterType="com.luke.admin.bean.Admin">
+        INSERT INTO  admin_info
+        VALUES
+        (NULL ,
+        #{admin_code},
+        #{admin_password},
+        #{admin_name},
+        #{admin_telephone},
+        #{admin_email},
+        #{enrolldate});
+    </insert>
+    <insert id="insertAdmin_role" parameterType="string">
+        INSERT INTO admin_role
+        VALUES
+        (#{admin_id},#{role_id});
+    </insert>
+
+    <!--modi-->
+    <select id="findAdminById" resultMap="AR">
+        select *
+        from admin_info
+        left join admin_role on admin_info.admin_id = admin_role.admin_id
+        LEFT JOIN role_info ON role_info.role_id = admin_role.role_id
+        where admin_info.admin_id = #{admin_id};
+    </select>
+    <resultMap id="AR" type="com.luke.admin.bean.Admin">
+        <id column="admin_id" property="admin_id"/>
+        <result column="admin_code" property="admin_code"/>
+        <result column="admin_password" property="admin_password"/>
+        <result column="admin_name" property="admin_name"/>
+        <result column="admin_telephone" property="admin_telephone"/>
+        <result column="admin_email" property="admin_email"/>
+        <collection property="role_infoList" ofType="com.luke.role.bean.Role_info">
+            <id column="role_id" property="role_id"/>
+            <result column="role_name" property="role_name"/>
+        </collection>
+    </resultMap>
+
+    <update id="updateAdmin" parameterType="com.luke.admin.bean.Admin" >
+        UPDATE admin_info
+        SET
+         admin_name = #{admin_name},
+         admin_telephone = #{admin_telephone},
+         admin_email = #{admin_email}
+         WHERE admin_code = #{admin_code};
+    </update>
+
+    <delete id="deleteAdminRoleById" >
+        DELETE
+        FROM admin_role
+         WHERE admin_id = #{admin_id};
+    </delete>
+</mapper>
