@@ -134,4 +134,12 @@
         FROM admin_role
          WHERE admin_id = #{admin_id};
     </delete>
+
+    <!--login-->
+    <select id="findByCodePasswd" parameterType="string" resultType="com.luke.admin.bean.Admin">
+        SELECT *
+        FROM admin_info
+        WHERE admin_code = #{admin_code}
+        AND admin_password = #{admin_password};
+    </select>
 </mapper>

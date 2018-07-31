@@ -176,4 +176,10 @@ public class AdminServiceImpl implements AdminService {
         }
         return false;
     }
+
+    /*---------------------------login----------------------------*/
+    @Override
+    public Admin findByCodePasswd(String admin_code, String admin_password) {
+        return mapper.findByCodePasswd(admin_code,admin_password);
+    }
 }

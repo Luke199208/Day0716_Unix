@@ -48,7 +48,7 @@
         <!--Logo区域开始-->
         <div id="header">
             <img src="../images/logo.png" alt="logo" class="left"/>
-            <a href="<c:url value="/login.html"/>">[退出]</a>
+            <a href="<c:url value="/login.jsp"/>">[退出]</a>
         </div>
         <!--Logo区域结束-->
         <!--导航区域开始-->

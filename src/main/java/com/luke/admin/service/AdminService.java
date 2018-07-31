@@ -44,4 +44,6 @@ public interface AdminService {
     Admin findAdminById(String id);
 
     boolean modi(Map<String, String> map);
+
+    Admin findByCodePasswd(String admin_code, String admin_password);
 }

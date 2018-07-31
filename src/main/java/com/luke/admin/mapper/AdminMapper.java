@@ -65,4 +65,9 @@ public interface AdminMapper {
     int updateAdmin(Admin admin);
 
     void deleteAdminRoleById(String admin_id);
+
+    /*---------------------------login---------------------------------*/
+
+    Admin findByCodePasswd(@Param("admin_code") String admin_code,@Param("admin_password") String admin_password);
+
 }

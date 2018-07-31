@@ -7,7 +7,7 @@
         <title></title>
         <link type="text/css" rel="stylesheet" media="all" href="<%= request.getContextPath()%>/styles/global.css" />
         <link type="text/css" rel="stylesheet" media="all" href="<%= request.getContextPath()%>/styles/global_color.css" />
-        <script src="/js/jquery-3.2.1.js"></script>
+        <script src="<%=request.getContextPath()%>/js/jquery-3.2.1.js"></script>
     </head>
     <body class="index">
         <!--导航区域开始-->
